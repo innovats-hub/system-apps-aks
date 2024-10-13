@@ -3,7 +3,7 @@ name: Cluster Manager Finish Provisioning
 on:
   push:
     branches:
-      - pending
+      - master
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
