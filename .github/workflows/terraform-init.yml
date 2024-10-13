@@ -3,7 +3,7 @@ name: Cluster Manager Init Provisioning
 on:
   pull_request:
     branches:
-      - master
+      - pending
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
