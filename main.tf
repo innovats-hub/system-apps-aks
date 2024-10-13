@@ -65,6 +65,8 @@ resource "helm_release" "nginx_ingress" {
   timeout          = var.timeout
   disable_webhooks = var.disable_webhooks
   recreate_pods    = var.recreate_pods
+
+  depends_on = [ kubernetes_namespace.namespace-nginx ]
 }
 
 # Create namespace prometheus in cluster
