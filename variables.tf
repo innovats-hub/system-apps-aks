@@ -84,6 +84,26 @@ variable "istio_resource_name" {
   default     = "istio"
 }
 
+# Nginx ingress variables
+
+variable "nginx_enabled" {
+  description = "Specifies whether Nginx should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "nginx_resource_name" {
+  description = "The name of the Nginx resource within the Kubernetes cluster."
+  type        = string
+  default     = "nginx-ingress"
+}
+
+variable "nginx_version" {
+  description = "The version of Nginx to be installed or managed."
+  type        = string
+  default     = "1.4.0"
+}
+
 
 # Prometheus variables
 
