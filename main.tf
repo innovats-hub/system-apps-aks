@@ -43,14 +43,21 @@ resource "helm_release" "istiod" {
   depends_on = [helm_release.istio_base]
 }
 
-# Deploy helm Istio Gateway in cluster
-resource "helm_release" "istio_gateway" {
-  count            = var.istio_enabled == true ? 1 : 0
-  name             = "${var.istio_resource_name}-gateway"
-  repository       = "https://istio-release.storage.googleapis.com/charts"
-  chart            = "gateway"
-  version          = var.istio_version
-  namespace        = "istio-system"
+# Create namespace nginx in cluster
+resource "kubernetes_namespace" "namespace-nginx" {
+  metadata {
+    name = "ingress"
+  }
+}
+
+# Deploy helm Nginx Gateway in cluster
+resource "helm_release" "nginx_ingress" {
+  count            = var.nginx_enabled == true ? 1 : 0
+  name             = var.nginx_resource_name
+  repository       = "https://helm.nginx.com/stable"
+  chart            = "nginx-ingress"
+  version          = var.nginx_version
+  namespace        = "ingress"
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -59,7 +66,7 @@ resource "helm_release" "istio_gateway" {
   disable_webhooks = var.disable_webhooks
   recreate_pods    = var.recreate_pods
 
-  depends_on = [helm_release.istiod]
+  depends_on = [ kubernetes_namespace.namespace-nginx ]
 }
 
 # Create namespace prometheus in cluster
