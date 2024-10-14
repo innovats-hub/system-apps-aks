@@ -83,3 +83,24 @@ variable "prometheus_version" {
   type        = string
   default     = "25.27.0"
 }
+
+
+# Istio variables
+
+variable "istio_enabled" {
+  description = "Specifies whether Istio should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "istio_version" {
+  description = "The version of Istio to be installed or managed."
+  type        = string
+  default     = "1.23.2"
+}
+
+variable "istio_resource_name" {
+  description = "The name of the Istio resource within the Kubernetes cluster."
+  type        = string
+  default     = "istio"
+}
