@@ -40,9 +40,12 @@ resource "kubernetes_manifest" "cloudflare_secret_token" {
       cloudflare-token = var.letsencrypt_cloudflare_token
     }
   }
+
+  depends_on = [helm_release.certmanager]
 }
 
 resource "kubernetes_manifest" "letsencrypt_cluster_issuer" {
+  count = var.letsencrypt_cloudflare_enabled == true ? 1 : 0
   manifest = {
     apiVersion = "cert-manager.io/v1"
     kind       = "ClusterIssuer"
@@ -74,4 +77,6 @@ resource "kubernetes_manifest" "letsencrypt_cluster_issuer" {
       }
     }
   }
+
+  depends_on = [kubernetes_manifest.cloudflare_secret_token]
 }
