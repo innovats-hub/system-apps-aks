@@ -104,3 +104,49 @@ variable "istio_resource_name" {
   type        = string
   default     = "istio"
 }
+
+# Cert manager variables
+
+variable "certmanager_enabled" {
+  description = "Specifies whether certmanager should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "certmanager_version" {
+  description = "The version of certmanager to be installed or managed."
+  type        = string
+  default     = "1.16.1"
+}
+
+variable "certmanager_resource_name" {
+  description = "The name of the certmanager resource within the Kubernetes cluster."
+  type        = string
+  default     = "cert-manager"
+}
+
+# Traefik variables
+
+variable "traefik_enabled" {
+  description = "Specifies whether Traefik should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "traefik_version" {
+  description = "The version of Traefik to be installed or managed."
+  type        = string
+  default     = "32.1.1"
+}
+
+variable "traefik_resource_name" {
+  description = "The name of the Traefik resource within the Kubernetes cluster."
+  type        = string
+  default     = "traefik"
+}
+
+variable "traefik_ingressclass_name" {
+  description = "The name of the IngressClass to be used for routing traffic through the Traefik Ingress controller."
+  type = string
+  default = "traefik-external"
+}
