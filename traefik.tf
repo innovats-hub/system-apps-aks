@@ -26,7 +26,7 @@ resource "helm_release" "traefik" {
   ]
 
   set {
-    name = "ingressClass.name"
+    name  = "ingressClass.name"
     value = var.traefik_ingressclass_name
   }
 
