@@ -105,57 +105,6 @@ variable "istio_resource_name" {
   default     = "istio"
 }
 
-# Cert manager variables
-
-variable "certmanager_enabled" {
-  description = "Specifies whether certmanager should be enabled in the Kubernetes cluster."
-  type        = bool
-  default     = true
-}
-
-variable "certmanager_version" {
-  description = "The version of certmanager to be installed or managed."
-  type        = string
-  default     = "1.16.1"
-}
-
-variable "certmanager_resource_name" {
-  description = "The name of the certmanager resource within the Kubernetes cluster."
-  type        = string
-  default     = "cert-manager"
-}
-
-variable "letsencrypt_cloudflare_enabled" {
-  description = "Determines if the Cloudflare DNS challenge is enabled for Let's Encrypt."
-  type        = bool
-  default     = false
-}
-
-variable "letsencrypt_cloudflare_name" {
-  description = "The name of the Cloudflare configuration for Let's Encrypt."
-  type        = string
-  default     = "letsencrypt-cloudflare"
-}
-
-variable "letsencrypt_cloudflare_token" {
-  description = "API token for authenticating with Cloudflare, stored as a sensitive value."
-  type        = string
-  sensitive   = true
-  default     = "token"
-}
-
-variable "letsencrypt_cloudflare_email" {
-  description = "Email address associated with the Cloudflare account used for Let's Encrypt."
-  type        = string
-  default     = "personal@example.com"
-}
-
-variable "letsencrypt_cloudflare_dns_zones" {
-  description = "List of DNS zones to be managed by Let's Encrypt through Cloudflare."
-  type        = list(string)
-  default     = ["example.com"]
-}
-
 # Traefik variables
 
 variable "traefik_enabled" {
