@@ -2,6 +2,9 @@
 resource "kubernetes_namespace" "namespace-traefik" {
   metadata {
     name = "traefik"
+    labels = {
+      istio-injection = "enabled"
+    }
   }
 }
 
