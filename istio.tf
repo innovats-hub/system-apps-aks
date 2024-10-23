@@ -12,7 +12,7 @@ resource "helm_release" "istio_base" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
   version          = var.istio_version
-  namespace        = kubernetes_namespace.namespace-istio.name
+  namespace        = kubernetes_namespace.namespace-istio.metadata[0]
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -36,7 +36,7 @@ resource "helm_release" "istiod" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
   version          = var.istio_version
-  namespace        = kubernetes_namespace.namespace-istio.name
+  namespace        = kubernetes_namespace.namespace-istio.metadata[0]
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values

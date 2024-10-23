@@ -12,7 +12,7 @@ resource "helm_release" "traefik" {
   repository       = "https://traefik.github.io/charts"
   chart            = "traefik"
   version          = var.traefik_version
-  namespace        = kubernetes_namespace.namespace-traefik.name
+  namespace        = kubernetes_namespace.namespace-traefik.metadata[0]
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
