@@ -12,7 +12,7 @@ resource "helm_release" "prometheus" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "prometheus"
   version          = var.prometheus_version
-  namespace        = kubernetes_namespace.namespace-prometheus.metadata[0]
+  namespace        = kubernetes_namespace.namespace-prometheus.metadata[0].name
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
