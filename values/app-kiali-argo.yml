@@ -7,6 +7,8 @@ applications:
     - chart: kiali-server
       repoURL: https://kiali.org/helm-charts
       targetRevision: 1.89.4
+      helm:
+        releaseName: kiali
       parameters:
         - name: auth.strategy
           value: "anonymous"
