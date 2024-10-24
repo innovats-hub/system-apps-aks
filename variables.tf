@@ -125,8 +125,22 @@ variable "traefik_resource_name" {
   default     = "traefik"
 }
 
-variable "traefik_ingressclass_name" {
-  description = "The name of the IngressClass to be used for routing traffic through the Traefik Ingress controller."
+# Argocd variables
+
+variable "argocd_enabled" {
+  description = "Specifies whether Argo should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "argocd_version" {
+  description = "The version of Argo to be installed or managed."
   type        = string
-  default     = "traefik-external"
+  default     = "7.6.12"
+}
+
+variable "argocd_resource_name" {
+  description = "The name of the Argo resource within the Kubernetes cluster."
+  type        = string
+  default     = "argocd"
 }

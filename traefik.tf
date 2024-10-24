@@ -28,10 +28,5 @@ resource "helm_release" "traefik" {
     "${file("values/traefik.yml")}"
   ]
 
-  set {
-    name  = "ingressClass.name"
-    value = var.traefik_ingressclass_name
-  }
-
   depends_on = [kubernetes_namespace.namespace-traefik]
 }
