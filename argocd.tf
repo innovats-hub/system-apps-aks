@@ -2,9 +2,6 @@
 resource "kubernetes_namespace" "namespace-argocd" {
   metadata {
     name = "argocd"
-    labels = {
-      istio-injection = "enabled"
-    }
   }
 }
 
@@ -24,4 +21,13 @@ resource "helm_release" "argocd" {
   disable_webhooks = var.disable_webhooks
   recreate_pods    = var.recreate_pods
 
+  set {
+    name  = "configs.params.\"server.insecure\""
+    value = var.argocd_server_insecure_enabled
+  }
+
+  set {
+    name  = "global.domain"
+    value = var.argocd_domain
+  }
 }

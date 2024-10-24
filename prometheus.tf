@@ -2,9 +2,6 @@
 resource "kubernetes_namespace" "namespace-prometheus" {
   metadata {
     name = "monitoring"
-    labels = {
-      istio-injection = "enabled"
-    }
   }
 }
 
