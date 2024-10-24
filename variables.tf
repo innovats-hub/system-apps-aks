@@ -105,26 +105,6 @@ variable "istio_resource_name" {
   default     = "istio"
 }
 
-# Traefik variables
-
-variable "traefik_enabled" {
-  description = "Specifies whether Traefik should be enabled in the Kubernetes cluster."
-  type        = bool
-  default     = true
-}
-
-variable "traefik_version" {
-  description = "The version of Traefik to be installed or managed."
-  type        = string
-  default     = "32.1.1"
-}
-
-variable "traefik_resource_name" {
-  description = "The name of the Traefik resource within the Kubernetes cluster."
-  type        = string
-  default     = "traefik"
-}
-
 # Argocd variables
 
 variable "argocd_enabled" {
@@ -143,4 +123,16 @@ variable "argocd_resource_name" {
   description = "The name of the Argo resource within the Kubernetes cluster."
   type        = string
   default     = "argocd"
+}
+
+variable "argocd_server_insecure_enabled" {
+  description = "Enable or disable insecure server mode for ArgoCD."
+  type        = bool
+  default     = true
+}
+
+variable "argocd_domain" {
+  description = "The domain name for accessing the ArgoCD server."
+  type        = string
+  default     = "argocd.example.com"
 }

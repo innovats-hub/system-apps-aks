@@ -67,3 +67,23 @@ resource "helm_release" "istiod" {
 
   depends_on = [helm_release.istio_base]
 }
+
+resource "helm_release" "istio_gateway" {
+  count            = var.istio_enabled == true ? 1 : 0
+  name             = "${var.istio_resource_name}-gateway"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "gateway"
+  version          = var.istio_version
+  namespace        = "istio-system"
+  force_update     = var.force_update
+  wait             = var.wait
+  reuse_values     = var.reuse_values
+  replace          = var.replace
+  timeout          = var.timeout
+  disable_webhooks = var.disable_webhooks
+  recreate_pods    = var.recreate_pods
+  depends_on = [
+    helm_release.istio_base,
+    helm_release.istiod
+  ]
+}
