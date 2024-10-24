@@ -125,12 +125,6 @@ variable "argocd_resource_name" {
   default     = "argocd"
 }
 
-variable "argocd_server_insecure_enabled" {
-  description = "Enable or disable insecure server mode for ArgoCD."
-  type        = bool
-  default     = true
-}
-
 variable "argocd_domain" {
   description = "The domain name for accessing the ArgoCD server."
   type        = string
