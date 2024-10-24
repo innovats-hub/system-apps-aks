@@ -130,3 +130,23 @@ variable "argocd_domain" {
   type        = string
   default     = "argocd.example.com"
 }
+
+# Argocd apps variables
+
+variable "argocd_apps_enabled" {
+  description = "Specifies whether Argo apps should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "argocd_apps_version" {
+  description = "The version of Argo apps to be installed or managed."
+  type        = string
+  default     = "2.0.2"
+}
+
+variable "argocd_apps_resource_name" {
+  description = "The name of the Argo apps resource within the Kubernetes cluster."
+  type        = string
+  default     = "argocd-app"
+}
