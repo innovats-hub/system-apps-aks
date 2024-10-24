@@ -1,0 +1,25 @@
+applications:
+  kiali:
+    namespace: argocd
+    project: kiali
+
+    sources:
+    - chart: kiali-server
+      repoURL: https://kiali.org/helm-charts
+      targetRevision: 1.89.4
+      helm:
+        releaseName: kiali
+      parameters:
+        - name: auth.strategy
+          value: "anonymous"
+
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: istio-system
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
