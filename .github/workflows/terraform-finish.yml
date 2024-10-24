@@ -16,6 +16,7 @@ env:
   TF_VAR_backend_key_name: ${{ vars.TF_VAR_backend_key_name }}
   ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
   TF_VAR_azure_cluster_name: ${{ vars.TF_VAR_azure_cluster_name }}
+  TF_VAR_argocd_domain: ${{ vars.TF_VAR_argocd_domain }}
 
 jobs:
   apply:
