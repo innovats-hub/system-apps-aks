@@ -14,6 +14,10 @@ applications:
         parameters:
           - name: auth.strategy
             value: "token"
+          - name: external_services.prometheus.url
+            value: "prometheus-server.monitoring.svc.cluster.local"
+          - name: external_services.grafana.enabled
+            value: "false"
 
     destination:
       server: https://kubernetes.default.svc
