@@ -37,3 +37,6 @@ projects:
     destinations:
     - namespace: istio-system
       server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
