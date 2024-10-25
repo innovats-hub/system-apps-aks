@@ -30,7 +30,7 @@ resource "helm_release" "argocd" {
     value = var.argocd_domain
   }
 
-  depends_on = [ kubernetes_namespace.namespace-argocd ]
+  depends_on = [kubernetes_namespace.namespace-argocd]
 }
 
 # Deploy Argocd in cluster
@@ -53,5 +53,5 @@ resource "helm_release" "argocd_app_kiali" {
     "${file("values/app-kiali-argo.yml")}"
   ]
 
-  depends_on = [ helm_release.argocd ]
+  depends_on = [helm_release.argocd]
 }
