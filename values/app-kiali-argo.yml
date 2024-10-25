@@ -15,8 +15,10 @@ applications:
           - name: auth.strategy
             value: "token"
           - name: external_services.prometheus.url
-            value: "prometheus-server.monitoring.svc.cluster.local"
+            value: "http://prometheus-server.monitoring.svc.cluster.local"
           - name: external_services.grafana.enabled
+            value: "false"
+          - name: external_services.custom_dashboards.enabled
             value: "false"
 
     destination:
