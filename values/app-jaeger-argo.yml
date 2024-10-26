@@ -11,9 +11,6 @@ applications:
       targetRevision: 3.3.1
       helm:
         releaseName: jaeger
-        parameters:
-          - name: provisionDataStore.cassandra
-            value: "false"
 
     destination:
       server: https://kubernetes.default.svc
