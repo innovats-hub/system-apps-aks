@@ -100,12 +100,12 @@ resource "helm_release" "argocd_app_rancher" {
   ]
 
   set {
-    name  = applications[0].rancher.sources[0].helm.parameters[0].name
+    name  = applications.rancher.sources[0].helm.parameters[0].name
     value = "hostname"
   }
 
   set {
-    name  = applications[0].rancher.sources[0].helm.parameters[0].value
+    name  = applications.rancher.sources[0].helm.parameters[0].value
     value = "example.com"
   }
 
