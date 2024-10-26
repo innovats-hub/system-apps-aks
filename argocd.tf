@@ -78,3 +78,36 @@ resource "helm_release" "argocd_app_kiali" {
 
   depends_on = [helm_release.argocd, helm_release.argocd_app_jaeger]
 }
+
+# Deploy Rancher in cluster
+resource "helm_release" "argocd_app_rancher" {
+  count            = var.argocd_apps_enabled == true ? 1 : 0
+  name             = "${var.argocd_apps_resource_name}-rancher"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argocd-apps"
+  version          = var.argocd_apps_version
+  namespace        = kubernetes_namespace.namespace-argocd.metadata[0].name
+  force_update     = var.force_update
+  wait             = var.wait
+  reuse_values     = var.reuse_values
+  replace          = var.replace
+  timeout          = var.timeout
+  disable_webhooks = var.disable_webhooks
+  recreate_pods    = var.recreate_pods
+
+  values = [
+    "${file("values/app-rancher-argo.yml")}"
+  ]
+
+  set {
+    name  = applications[0].rancher.sources[0].helm.parameters[0].name
+    value = "hostname"
+  }
+
+  set {
+    name  = applications[0].rancher.sources[0].helm.parameters[0].value
+    value = "example.com"
+  }
+
+  depends_on = [helm_release.argocd]
+}

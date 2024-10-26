@@ -1,20 +1,25 @@
 applications:
-  jaeger:
+  rancher:
     namespace: argocd
-    project: jaeger
+    project: rancher
     finalizers:
     - resources-finalizer.argocd.argoproj.io
 
     sources:
-    - chart: jaeger
-      repoURL: https://jaegertracing.github.io/helm-charts
-      targetRevision: 3.3.1
+    - chart: rancher
+      repoURL: https://releases.rancher.com/server-charts/stable
+      targetRevision: 2.9.3
       helm:
-        releaseName: jaeger
+        releaseName: rancher
+        parameters:
+          - name: ingress.enabled
+            value: "false"
+          - name: tls
+            value: "external"
 
     destination:
       server: https://kubernetes.default.svc
-      namespace: istio-system
+      namespace: cattle-system
 
     syncPolicy:
       automated:
@@ -24,15 +29,15 @@ applications:
       - CreateNamespace=true
 
 projects:
-  jaeger:
+  rancher:
     namespace: argocd
     finalizers:
     - resources-finalizer.argocd.argoproj.io
-    description: Project Jaeger for Tracing
+    description: Project Rancher for clusters connections
     sourceRepos:
     - '*'
     destinations:
-    - namespace: istio-system
+    - namespace: cattle-system
       server: https://kubernetes.default.svc
     clusterResourceWhitelist:
     - group: '*'
