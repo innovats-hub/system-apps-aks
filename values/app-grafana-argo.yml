@@ -1,23 +1,20 @@
 applications:
-  jaeger:
+  grafana:
     namespace: argocd
-    project: jaeger
+    project: grafana
     finalizers:
     - resources-finalizer.argocd.argoproj.io
 
     sources:
-    - chart: jaeger
-      repoURL: https://jaegertracing.github.io/helm-charts
-      targetRevision: 3.3.1
+    - chart: grafana
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 8.5.8
       helm:
-        releaseName: jaeger
-        parameters:
-          - name: provisionDataStore.cassandra
-            value: "false"
+        releaseName: grafana
 
     destination:
       server: https://kubernetes.default.svc
-      namespace: istio-system
+      namespace: monitoring
 
     syncPolicy:
       automated:
@@ -27,15 +24,15 @@ applications:
       - CreateNamespace=true
 
 projects:
-  jaeger:
+  grafana:
     namespace: argocd
     finalizers:
     - resources-finalizer.argocd.argoproj.io
-    description: Project Jaeger for Tracing
+    description: Project Grafana for Monitoring
     sourceRepos:
     - '*'
     destinations:
-    - namespace: istio-system
+    - namespace: monitoring
       server: https://kubernetes.default.svc
     clusterResourceWhitelist:
     - group: '*'
