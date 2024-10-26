@@ -99,15 +99,5 @@ resource "helm_release" "argocd_app_rancher" {
     "${file("values/app-rancher-argo.yml")}"
   ]
 
-  set {
-    name  = applications.rancher.sources[0].helm.parameters[0].name
-    value = "hostname"
-  }
-
-  set {
-    name  = applications.rancher.sources[0].helm.parameters[0].value
-    value = "example.com"
-  }
-
   depends_on = [helm_release.argocd]
 }
