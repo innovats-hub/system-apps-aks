@@ -23,6 +23,35 @@ applications:
       syncOptions:
       - CreateNamespace=true
 
+  loki:
+    namespace: argocd
+    project: grafana
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+    sources:
+    - chart: loki-stack
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 2.10.2
+      helm:
+        releaseName: loki
+        parameters:
+          - name: promtail.enabled
+            value: "false"
+          - name: fluent-bit.enabled
+            value: "true"
+
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: monitoring
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+
 projects:
   grafana:
     namespace: argocd
