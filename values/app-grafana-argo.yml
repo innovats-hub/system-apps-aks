@@ -35,11 +35,6 @@ applications:
       targetRevision: 2.10.2
       helm:
         releaseName: loki
-        parameters:
-          - name: promtail.enabled
-            value: "false"
-          - name: fluent-bit.enabled
-            value: "true"
 
     destination:
       server: https://kubernetes.default.svc
