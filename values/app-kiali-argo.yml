@@ -21,7 +21,8 @@ applications:
           - name: external_services.custom_dashboards.enabled
             value: "false"
     - repoURL: 'https://github.com/innovats-hub/system-apps-aks.git'
-      path: 'manifests/kiali/dashboard-auth.yml'
+      path: 'manifests/kiali/service-account'
+      targetRevision: 'master'
 
     destination:
       server: https://kubernetes.default.svc
