@@ -7,7 +7,7 @@ spec:
   hosts:
     - grafana.dev.innovatshub.com
   gateways:
-    - istio-system/innovatshub
+    - istio-system/innovatshub-dev
   http:
     - match:
         - uri:
