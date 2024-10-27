@@ -78,50 +78,42 @@ resource "helm_release" "istio_gateway" {
   depends_on = [helm_release.istio_base, helm_release.istiod]
 }
 
-resource "kubernetes_manifest" "gateway_ingress_dev" {
-  count = var.letsencrypt_cloudflare_enabled == true ? 1 : 0
-  manifest = {
-    "apiVersion" = "networking.istio.io/v1"
-    "kind"       = "Gateway"
-    "metadata" = {
-      "name"      = "${var.letsencrypt_cloudflare_organization}_dev"
-      "namespace" = "${helm_release.istio_base[0].namespace}"
-    }
-    "spec" = {
-      "selector" = {
-        "istio" = "gateway"
-      }
-      "servers" = [
-        {
-          "hosts" = ["*.dev.${var.letsencrypt_cloudflare_domain_zone}"]
-          "port" = {
-            "name"     = "http"
-            "number"   = 80
-            "protocol" = "HTTP"
-          }
-          "tls" = {
-            "httpsRedirect" = true
-          }
-        },
-        {
-          "hosts" = ["*.dev.${var.letsencrypt_cloudflare_domain_zone}"]
-          "port" = {
-            "number"   = 443
-            "name"     = "https"
-            "protocol" = "HTTPS"
-          }
-          "tls" = {
-            "mode"           = "SIMPLE"
-            "credentialName" = "wildcard-dev-${var.letsencrypt_cloudflare_organization}-com-tls"
-          }
-        }
-      ]
-    }
-  }
+
+
+resource "kubectl_manifest" "gateway_ingress_dev" {
+  count     = var.letsencrypt_cloudflare_enabled == true ? 1 : 0
+  yaml_body = <<YAML
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: "${var.letsencrypt_cloudflare_organization}_dev"
+  namespace: "${helm_release.istio_base[0].namespace}"
+spec:
+  selector:
+    istio: gateway
+  servers:
+    - hosts:
+        - "*.dev.${var.letsencrypt_cloudflare_domain_zone}"
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+      tls:
+        httpsRedirect: true
+    - hosts:
+        - "*.dev.${var.letsencrypt_cloudflare_domain_zone}"
+      port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: "wildcard-dev-${var.letsencrypt_cloudflare_organization}-com-tls"
+YAML
 
   depends_on = [
     helm_release.certmanager,
     helm_release.istio_gateway,
-    kubernetes_manifest.letsencrypt_certificate_wildcard_dev
+    kubectl_manifest.letsencrypt_certificate_wildcard_dev
   ]
 }
