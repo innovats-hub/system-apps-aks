@@ -7,7 +7,8 @@ applications:
 
     sources:
     - repoURL: 'https://github.com/innovats-hub/system-apps-aks.git'
-      path: 'manifests/kiali/virtual-service.yml'
+      path: 'manifests/kiali/ingress'
+      targetRevision: 'master'
 
     destination:
       server: https://kubernetes.default.svc
@@ -28,7 +29,8 @@ applications:
 
     sources:
     - repoURL: 'https://github.com/innovats-hub/system-apps-aks.git'
-      path: 'manifests/grafana/virtual-service.yml'
+      path: 'manifests/grafana/ingress'
+      targetRevision: 'master'
 
     destination:
       server: https://kubernetes.default.svc
