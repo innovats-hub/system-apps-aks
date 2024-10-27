@@ -136,12 +136,14 @@ variable "letsencrypt_cloudflare_enabled" {
 variable "letsencrypt_cloudflare_token" {
   description = "Cloudflare authentication token for DNS validation in Let's Encrypt."
   type        = string
+  sensitive   = true
   default     = "token"
 }
 
 variable "letsencrypt_cloudflare_email" {
   description = "Email address used for Let's Encrypt registration and certificate-related notifications."
   type        = string
+  sensitive   = true
   default     = "name@example.com"
 }
 

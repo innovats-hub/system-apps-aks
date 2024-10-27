@@ -86,7 +86,7 @@ resource "kubectl_manifest" "gateway_ingress_dev" {
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: "${var.letsencrypt_cloudflare_organization}_dev"
+  name: "${var.letsencrypt_cloudflare_organization}-dev"
   namespace: "${helm_release.istio_base[0].namespace}"
 spec:
   selector:
