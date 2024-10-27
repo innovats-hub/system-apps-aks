@@ -20,10 +20,6 @@ applications:
             value: "false"
           - name: external_services.custom_dashboards.enabled
             value: "false"
-          - name: external_services.tracing.enabled
-            value: "true"
-          - name: external_services.tracing.internal_url
-            value: "http://jaeger-query.istio-system.svc.cluster.local:16685/jaeger"
 
     destination:
       server: https://kubernetes.default.svc
