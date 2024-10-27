@@ -1,0 +1,36 @@
+applications:
+  dns-kiali:
+    namespace: argocd
+    project: dns-apps
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+    sources:
+    - repoURL: 'https://github.com/innovats-hub/system-apps-aks.git'
+      path: 'manifests/kiali/virtual-service.yml'
+
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: istio-system
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+
+projects:
+  dns-apps:
+    namespace: argocd
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: Project DNS apps
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
