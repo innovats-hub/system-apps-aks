@@ -1,10 +1,3 @@
-# Create namespace prometheus in cluster
-resource "kubernetes_namespace" "namespace-prometheus" {
-  metadata {
-    name = "monitoring"
-  }
-}
-
 # Deploy helm Prometheus in cluster
 resource "helm_release" "prometheus" {
   count            = var.prometheus_enabled == true ? 1 : 0
@@ -12,7 +5,8 @@ resource "helm_release" "prometheus" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "prometheus"
   version          = var.prometheus_version
-  namespace        = kubernetes_namespace.namespace-prometheus.metadata[0].name
+  namespace        = "monitoring"
+  create_namespace = true
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -20,6 +14,4 @@ resource "helm_release" "prometheus" {
   timeout          = var.timeout
   disable_webhooks = var.disable_webhooks
   recreate_pods    = var.recreate_pods
-
-  depends_on = [kubernetes_namespace.namespace-prometheus]
 }

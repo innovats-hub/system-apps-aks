@@ -105,6 +105,58 @@ variable "istio_resource_name" {
   default     = "istio"
 }
 
+# Cert manager variables
+
+variable "certmanager_enabled" {
+  description = "Specifies whether Istio should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = false
+}
+
+variable "certmanager_version" {
+  description = "The version of Istio to be installed or managed."
+  type        = string
+  default     = "1.16.1"
+}
+
+variable "certmanager_resource_name" {
+  description = "The name of the Istio resource within the Kubernetes cluster."
+  type        = string
+  default     = "cert-manager"
+}
+
+# Lets encrypt variables
+
+variable "letsencrypt_cloudflare_enabled" {
+  description = "Enables or disables the Let's Encrypt ClusterIssuer configuration with Cloudflare DNS."
+  type        = bool
+  default     = false
+}
+
+variable "letsencrypt_cloudflare_token" {
+  description = "Cloudflare authentication token for DNS validation in Let's Encrypt."
+  type        = string
+  default     = "token"
+}
+
+variable "letsencrypt_cloudflare_email" {
+  description = "Email address used for Let's Encrypt registration and certificate-related notifications."
+  type        = string
+  default     = "name@example.com"
+}
+
+variable "letsencrypt_cloudflare_organization" {
+  description = "Organization name associated with the issued certificate."
+  type        = string
+  default     = "example"
+}
+
+variable "letsencrypt_cloudflare_domain_zone" {
+  description = "Domain zone in Cloudflare to be used for Let's Encrypt DNS (e.g., 'example.com')."
+  type        = string
+  default     = "example.com"
+}
+
 # Argocd variables
 
 variable "argocd_enabled" {

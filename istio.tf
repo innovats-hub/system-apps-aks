@@ -1,10 +1,3 @@
-# Create namespace istio in cluster
-resource "kubernetes_namespace" "namespace-istio" {
-  metadata {
-    name = "istio-system"
-  }
-}
-
 # Deploy helm Istio Base in cluster
 resource "helm_release" "istio_base" {
   count            = var.istio_enabled == true ? 1 : 0
@@ -12,7 +5,8 @@ resource "helm_release" "istio_base" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "base"
   version          = var.istio_version
-  namespace        = kubernetes_namespace.namespace-istio.metadata[0].name
+  namespace        = "istio-system"
+  create_namespace = true
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -25,8 +19,6 @@ resource "helm_release" "istio_base" {
     name  = "global.istioNamespace"
     value = "istio-system"
   }
-
-  depends_on = [kubernetes_namespace.namespace-istio]
 }
 
 # Deploy helm IstioD in cluster
@@ -36,7 +28,7 @@ resource "helm_release" "istiod" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "istiod"
   version          = var.istio_version
-  namespace        = kubernetes_namespace.namespace-istio.metadata[0].name
+  namespace        = helm_release.istio_base[0].namespace
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -74,7 +66,7 @@ resource "helm_release" "istio_gateway" {
   repository       = "https://istio-release.storage.googleapis.com/charts"
   chart            = "gateway"
   version          = var.istio_version
-  namespace        = "istio-system"
+  namespace        = helm_release.istio_base[0].namespace
   force_update     = var.force_update
   wait             = var.wait
   reuse_values     = var.reuse_values
@@ -82,8 +74,54 @@ resource "helm_release" "istio_gateway" {
   timeout          = var.timeout
   disable_webhooks = var.disable_webhooks
   recreate_pods    = var.recreate_pods
+
+  depends_on = [helm_release.istio_base, helm_release.istiod]
+}
+
+resource "kubernetes_manifest" "gateway_ingress_dev" {
+  count = var.letsencrypt_cloudflare_enabled == true ? 1 : 0
+  manifest = {
+    "apiVersion" = "networking.istio.io/v1"
+    "kind"       = "Gateway"
+    "metadata" = {
+      "name"      = "${var.letsencrypt_cloudflare_organization}_dev"
+      "namespace" = "${helm_release.istio_base[0].namespace}"
+    }
+    "spec" = {
+      "selector" = {
+        "istio" = "gateway"
+      }
+      "servers" = [
+        {
+          "hosts" = ["*.dev.${var.letsencrypt_cloudflare_domain_zone}"]
+          "port" = {
+            "name"     = "http"
+            "number"   = 80
+            "protocol" = "HTTP"
+          }
+          "tls" = {
+            "httpsRedirect" = true
+          }
+        },
+        {
+          "hosts" = ["*.dev.${var.letsencrypt_cloudflare_domain_zone}"]
+          "port" = {
+            "number"   = 443
+            "name"     = "https"
+            "protocol" = "HTTPS"
+          }
+          "tls" = {
+            "mode"           = "SIMPLE"
+            "credentialName" = "wildcard-dev-${var.letsencrypt_cloudflare_organization}-com-tls"
+          }
+        }
+      ]
+    }
+  }
+
   depends_on = [
-    helm_release.istio_base,
-    helm_release.istiod
+    helm_release.certmanager,
+    helm_release.istio_gateway,
+    kubernetes_manifest.letsencrypt_certificate_wildcard_dev
   ]
 }
