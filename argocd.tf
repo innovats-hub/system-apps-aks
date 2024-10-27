@@ -76,7 +76,7 @@ resource "helm_release" "argocd_app_kiali" {
     "${file("values/app-kiali-argo.yml")}"
   ]
 
-  depends_on = [helm_release.argocd, helm_release.argocd_app_jaeger]
+  depends_on = [helm_release.argocd]
 }
 
 # Deploy Rancher in cluster
