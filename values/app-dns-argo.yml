@@ -20,6 +20,27 @@ applications:
       syncOptions:
       - CreateNamespace=true
 
+  dns-grafana:
+    namespace: argocd
+    project: dns-apps
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+    sources:
+    - repoURL: 'https://github.com/innovats-hub/system-apps-aks.git'
+      path: 'manifests/grafana/virtual-service.yml'
+
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: monitoring
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+
 projects:
   dns-apps:
     namespace: argocd
