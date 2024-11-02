@@ -1,29 +1,5 @@
 applications:
-  grafana:
-    namespace: argocd
-    project: grafana
-    finalizers:
-    - resources-finalizer.argocd.argoproj.io
-
-    sources:
-    - chart: grafana
-      repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 8.5.8
-      helm:
-        releaseName: grafana
-
-    destination:
-      server: https://kubernetes.default.svc
-      namespace: monitoring
-
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-      - CreateNamespace=true
-
-  loki:
+  loki-stack:
     namespace: argocd
     project: grafana
     finalizers:
@@ -35,6 +11,13 @@ applications:
       targetRevision: 2.10.2
       helm:
         releaseName: loki
+        parameters:
+          - name: loki.enabled
+            value: "true"
+          - name: promtail.enabled
+            value: "true"
+          - name: grafana.enabled
+            value: "true"
 
     destination:
       server: https://kubernetes.default.svc
