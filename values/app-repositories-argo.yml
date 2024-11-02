@@ -14,6 +14,18 @@ applications:
         parameters:
           - name: metrics.enabled
             value: "true"
+          - name: expose.type
+            value: "clusterIP"
+          - name: expose.tls.enabled
+            value: "false"
+          - name: internalTLS.enabled
+            value: "false"
+          - name: externalURL
+            value: "harbor.dev.innovatshub.com"
+          - name: trivy.enabled
+            value: "true"
+          - name: trivy.insecure
+            value: "true"
 
     destination:
       server: https://kubernetes.default.svc
