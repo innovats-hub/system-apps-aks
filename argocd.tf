@@ -58,7 +58,7 @@ YAML
 
 # Deploy Kiali in cluster
 resource "helm_release" "argocd_app_kiali" {
-  count            = var.argocd_apps_enabled == true ? 1 : 0
+  count            = var.argocd_app_kiali_enabled == true ? 1 : 0
   name             = "${var.argocd_apps_resource_name}-kiali"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argocd-apps"
@@ -81,7 +81,7 @@ resource "helm_release" "argocd_app_kiali" {
 
 # Deploy Grafana in cluster
 resource "helm_release" "argocd_app_grafana" {
-  count            = var.argocd_apps_enabled == true ? 1 : 0
+  count            = var.argocd_app_grafana_enabled == true ? 1 : 0
   name             = "${var.argocd_apps_resource_name}-grafana"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argocd-apps"
@@ -102,10 +102,10 @@ resource "helm_release" "argocd_app_grafana" {
   depends_on = [helm_release.argocd]
 }
 
-# Deploy repositories apps in cluster
+# Deploy Nexus apps in cluster
 resource "helm_release" "argocd_app_repositories" {
-  count            = var.argocd_apps_enabled == true ? 1 : 0
-  name             = "${var.argocd_apps_resource_name}-repositories"
+  count            = var.argocd_app_nexus_enabled == true ? 1 : 0
+  name             = "${var.argocd_apps_resource_name}-nexus"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argocd-apps"
   version          = var.argocd_apps_version
@@ -119,7 +119,7 @@ resource "helm_release" "argocd_app_repositories" {
   recreate_pods    = var.recreate_pods
 
   values = [
-    "${file("values/app-repositories-argo.yml")}"
+    "${file("values/app-nexus-argo.yml")}"
   ]
 
   depends_on = [helm_release.argocd, kubectl_manifest.gateway_ingress_dev]
@@ -127,7 +127,7 @@ resource "helm_release" "argocd_app_repositories" {
 
 # Deploy DNS apps in cluster
 resource "helm_release" "argocd_app_dns" {
-  count            = var.argocd_apps_enabled == true && var.letsencrypt_cloudflare_enabled == true ? 1 : 0
+  count            = var.argocd_app_dns_enabled == true && var.letsencrypt_cloudflare_enabled == true ? 1 : 0
   name             = "${var.argocd_apps_resource_name}-dns"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argocd-apps"

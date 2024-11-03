@@ -69,7 +69,7 @@ variable "recreate_pods" {
 variable "prometheus_enabled" {
   description = "Specifies whether Prometheus should be enabled in the Kubernetes cluster."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "prometheus_resource_name" {
@@ -187,12 +187,6 @@ variable "argocd_domain" {
 
 # Argocd apps variables
 
-variable "argocd_apps_enabled" {
-  description = "Specifies whether Argo apps should be enabled in the Kubernetes cluster."
-  type        = bool
-  default     = true
-}
-
 variable "argocd_apps_version" {
   description = "The version of Argo apps to be installed or managed."
   type        = string
@@ -203,4 +197,28 @@ variable "argocd_apps_resource_name" {
   description = "The name of the Argo apps resource within the Kubernetes cluster."
   type        = string
   default     = "argocd-app"
+}
+
+variable "argocd_app_kiali_enabled" {
+  description = "Specifies whether Argo app Kiali should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = false
+}
+
+variable "argocd_app_grafana_enabled" {
+  description = "Specifies whether Argo app Grafana should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = false
+}
+
+variable "argocd_app_dns_enabled" {
+  description = "Specifies whether Argo app DNS's should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
+}
+
+variable "argocd_app_nexus_enabled" {
+  description = "Specifies whether Argo app Nexus should be enabled in the Kubernetes cluster."
+  type        = bool
+  default     = true
 }
