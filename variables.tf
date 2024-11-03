@@ -214,11 +214,11 @@ variable "argocd_app_grafana_enabled" {
 variable "argocd_app_dns_enabled" {
   description = "Specifies whether Argo app DNS's should be enabled in the Kubernetes cluster."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "argocd_app_nexus_enabled" {
   description = "Specifies whether Argo app Nexus should be enabled in the Kubernetes cluster."
   type        = bool
-  default     = true
+  default     = false
 }
