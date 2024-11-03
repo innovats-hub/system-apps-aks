@@ -1,0 +1,39 @@
+applications:
+  nexus:
+    namespace: argocd
+    project: nexus
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+    sources:
+    - chart: 
+      repoURL: 
+      targetRevision: 
+      helm:
+        releaseName: nexus
+
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: nexusrepo
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+
+projects:
+  nexus:
+    namespace: argocd
+    finalizers:
+    - resources-finalizer.argocd.argoproj.io
+    description: Project Repositories for apps in cluster
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: nexusrepo
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
