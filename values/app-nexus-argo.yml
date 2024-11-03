@@ -6,9 +6,9 @@ applications:
     - resources-finalizer.argocd.argoproj.io
 
     sources:
-    - chart: 
-      repoURL: 
-      targetRevision: 
+    - chart: nxrm-ha
+      repoURL: https://sonatype.github.io/helm3-charts
+      targetRevision: 73.0.0
       helm:
         releaseName: nexus
 
